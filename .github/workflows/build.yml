@@ -4,6 +4,11 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  REGISTRY_USER: ${{ github.actor }}
+  REGISTRY_PASSWORD: ${{ github.token }}
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,7 +18,17 @@ jobs:
     - uses: hustcer/setup-nu@main
       with:
         version: '*'
+    - name: Log in to ghcr.io
+      uses: redhat-actions/podman-login@v1
+      with:
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ env.REGISTRY_PASSWORD }}
+        registry: ${{ env.IMAGE_REGISTRY }}
     - name: Build the base image
       run: nu build.nu "base"
     - name: Build the nvidia base image
       run: nu build.nu "base-nv"
+    - name: Publish base
+      run: nu publish.nu "base"
+    - name: Publish base-nv
+      run: nu publish.nu "base-nv"
