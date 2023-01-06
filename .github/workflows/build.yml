@@ -26,11 +26,15 @@ jobs:
         username: ${{ env.REGISTRY_USER }}
         password: ${{ env.REGISTRY_PASSWORD }}
         registry: ${{ env.IMAGE_REGISTRY }}
+        
     - name: Build the base image
       run: nu build.nu "base"
-    - name: Build the nvidia base image
-      run: nu build.nu "base-nv"
+
     - name: Publish base
       run: nu publish.nu "base"
+
+    - name: Build the nvidia base image
+      run: nu build.nu "base-nv"
+    
     - name: Publish base-nv
       run: nu publish.nu "base-nv"
