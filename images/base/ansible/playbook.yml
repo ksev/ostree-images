@@ -37,19 +37,3 @@
       - distrobox
       - gnome-tweaks
       state: present
-
-  - name: Removing filtered Flathub repo
-    community.general.flatpak_remote:
-      name: flathub
-      state: absent
-
-  - name: Removing filtered Flathub repo
-    community.general.flatpak_remote:
-      name: flathub
-      state: absent
-
-  - name: Add unfiltered Flathub
-    community.general.flatpak_remote:
-      name: flathub
-      flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
-      state: present
