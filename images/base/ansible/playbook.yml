@@ -1,0 +1,55 @@
+---
+- name: Base image Playbook
+  hosts: localhost
+  tasks:
+  - name: configure rpm-ostree auto updates
+    copy:
+      src: rpm-ostreed.conf
+      dest: /etc/rpm-ostreed.conf
+      mode: '0644'
+
+  - name: configure flatpak auto updates
+    copy:
+      src: flatpak-automatic/
+      dest: /etc/systemd/system/
+      mode: '0644'
+
+  - name: Enable Auto update ostree
+    systemd: 
+      name: rpm-ostreed-automatic.timer
+      enabled: true
+
+  - name: Enable Auto update flatpak
+    systemd: 
+      name: flatpak-automatic.timer
+      enabled: true
+
+  - name: Remove Firefox
+    community.general.rpm_ostree_pkg:
+      name:
+      - firefox
+      - firefox-langpacks
+      state: absent
+
+  - name: Add base packages
+    community.general.rpm_ostree_pkg:
+      name: 
+      - distrobox
+      - gnome-tweaks
+      state: present
+
+  - name: Removing filtered Flathub repo
+    community.general.flatpak_remote:
+      name: flathub
+      state: absent
+
+  - name: Removing filtered Flathub repo
+    community.general.flatpak_remote:
+      name: flathub
+      state: absent
+
+  - name: Add unfiltered Flathub
+    community.general.flatpak_remote:
+      name: flathub
+      flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+      state: present

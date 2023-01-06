@@ -1,0 +1,19 @@
+name: Build & push images
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: hustcer/setup-nu@main
+      with:
+        version: '*'
+    - name: Build the base image
+      run: nu build.nu "base"
+    - name: Build the nvidia base image
+      run: nu build.nu "base-nv"
