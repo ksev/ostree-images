@@ -36,4 +36,5 @@
       name: 
       - distrobox
       - gnome-tweaks
+      - steam-devices
       state: present
