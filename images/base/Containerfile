@@ -1,8 +1,15 @@
+ARG RPMFUSION_FREE="https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm"
+ARG RPMFUSION_NON_FREE="https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm"
+
 FROM ghcr.io/cgwalters/fedora-silverblue:37
 
-COPY ansible/*.yml ansible/files /tmp/ansible/base/
+ARG RPMFUSION_FREE
+ARG RPMFUSION_NON_FREE
 
-RUN rpm-ostree install -y ansible && \
+COPY ansible/*.yml ansible/files /tmp/ansible/base
+
+RUN rpm-ostree install ${RPMFUSION_FREE} ${RPMFUSION_NON_FREE} && \
+    rpm-ostree install -y ansible && \
     ansible-galaxy install -r /tmp/ansible/base/requirements.yml && \
     ansible-playbook /tmp/ansible/base/playbook.yml && \
     rm -rf ~/.ansible /var/* ~/.* && \

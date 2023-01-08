@@ -21,8 +21,6 @@ RUN KERNEL_VERSION=$(cat /kernel-version.txt) && \
     akmods --force
 
 FROM localhost/base:latest
-ARG RPMFUSION_FREE
-ARG RPMFUSION_NON_FREE
 
 # Copy kernel version from kernel-query stage
 COPY --from=kernel-query /kernel-version.txt /kernel-version.txt
@@ -32,7 +30,6 @@ COPY --from=kernel-query /kernel-version.txt /kernel-version.txt
 COPY --from=nvidia-base /var/cache/akmods/nvidia /tmp/nvidia
 
 RUN KERNEL_VERSION=$(cat /kernel-version.txt) && \
-    rpm-ostree install ${RPMFUSION_FREE} ${RPMFUSION_NON_FREE} && \
     rpm-ostree install xorg-x11-drv-nvidia{,-cuda} kernel-${KERNEL_VERSION} && \
     rpm-ostree install /tmp/nvidia/*${KERNEL_VERSION}*.rpm && \
     rm -rf /var/* && rm -rf /tmp/nvidia && rm -f /kernel-version.txt && \
