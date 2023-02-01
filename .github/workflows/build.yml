@@ -20,7 +20,8 @@ jobs:
     - uses: hustcer/setup-nu@main
       with:
         version: '*'
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Log in to ghcr.io
       uses: redhat-actions/podman-login@v1
       with:
