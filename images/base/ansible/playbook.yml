@@ -31,16 +31,20 @@
       - firefox-langpacks
       state: absent
 
+  - name: Download CachyOS kernel Copr
+    shell: wget https://copr.fedorainfracloud.org/coprs/bieszczaders/kernel-cachyos/repo/fedora-$(rpm -E %fedora)/bieszczaders-kernel-cachyos-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_bieszczaders-kernel-cachyos.repo
+
+  - name: Download VRR Copr
+    shell: wget https://copr.fedorainfracloud.org/coprs/kylegospo/gnome-vrr/repo/fedora-$(rpm -E %fedora)/kylegospo-gnome-vrr-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-gnome-vrr.repo
+  
   - name: Add base packages
     community.general.rpm_ostree_pkg:
       name: 
       - distrobox
       - gnome-tweaks
       - steam-devices
+      - kernel-cachyos-bore
       state: present
-
-  - name: Download VRR Copr
-    shell: wget https://copr.fedorainfracloud.org/coprs/kylegospo/gnome-vrr/repo/fedora-$(rpm -E %fedora)/kylegospo-gnome-vrr-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-gnome-vrr.repo
 
   - name: Build VRR Copr
     shell: rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:kylegospo:gnome-vrr mutter gnome-control-center gnome-control-center-filesystem
