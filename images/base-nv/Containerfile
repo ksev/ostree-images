@@ -16,7 +16,7 @@ ARG RPMFUSION_NON_FREE
 COPY --from=kernel-query /kernel-version.txt /kernel-version.txt
 
 RUN KERNEL_VERSION=$(cat /kernel-version.txt) && \
-    dnf intall dnf-plugins-core && \ 
+    dnf install dnf-plugins-core && \ 
     dnf install -y $RPMFUSION_FREE $RPMFUSION_NON_FREE fedora-repos-archive && \
     dnf copr enable bieszczaders/kernel-cachyos && \
     dnf install kernel-cachyos-bore && \
