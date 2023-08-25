@@ -1,7 +1,7 @@
 # Publish an image under latest and the current time
 
 def main [image: string] {
-    let now = (date now | date format "%Y%m%d%H%M")
+    let now = (date now | format date "%Y%m%d%H%M")
     
     ["latest", $now] | each { |tag|
         let remote = $"($env.IMAGE_REGISTRY)/($image):($tag)"
