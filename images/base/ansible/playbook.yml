@@ -31,12 +31,16 @@
       - firefox-langpacks
       state: absent
 
+  - name: Download System76 scheduler copr
+    shell: wget https://copr.fedorainfracloud.org/coprs/kylegospo/system76-scheduler/repo/fedora-$(rpm -E %fedora)/kylegospo-system76-scheduler-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-system76-scheduler.repo
+
   - name: Add base packages
     community.general.rpm_ostree_pkg:
       name: 
       - distrobox
       - gnome-tweaks
       - steam-devices
+      - system76-scheduler
       state: present
 
 #  - name: Download VRR Copr
