@@ -1,6 +1,3 @@
-ARG RPMFUSION_FREE="https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-38.noarch.rpm"
-ARG RPMFUSION_NON_FREE="https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-38.noarch.rpm"
-
 FROM ghcr.io/ksev/ostree-images/base:latest
 
 # Copy the compiled akmods from these ublue images so i dont have to build against newest kernel release
