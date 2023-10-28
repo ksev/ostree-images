@@ -24,13 +24,14 @@
       name: flatpak-automatic.timer
       enabled: true
 
-  - name: Remove Firefox
+  - name: Remove Builtin packages
     community.general.rpm_ostree_pkg:
       name:
       - firefox
       - firefox-langpacks
+      - toolbox
       state: absent
-
+    
   - name: Download System76 scheduler copr
     shell: wget https://copr.fedorainfracloud.org/coprs/kylegospo/system76-scheduler/repo/fedora-$(rpm -E %fedora)/kylegospo-system76-scheduler-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-system76-scheduler.repo
 
@@ -42,7 +43,7 @@
 
   - name: Download starship copr
     shell: wget https://copr.fedorainfracloud.org/coprs/atim/starship/repo/fedora-$(rpm -E %fedora)/atim-starship-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_atim-starship.repo
-  
+    
   - name: Add base packages
     community.general.rpm_ostree_pkg:
       name: 
@@ -55,4 +56,4 @@
       state: present
 
   - name: Build VRR Copr
-    shell: rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:kylegospo:gnome-vrr mutter mutter-common gnome-control-center gnome-control-center-filesystem xorg-x11-server-Xwayland
+    shell: rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:kylegospo:gnome-vrr mutter mutter-common gnome-control-center gnome-control-center-filesystem

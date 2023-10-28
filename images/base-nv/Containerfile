@@ -1,7 +1,7 @@
 FROM ghcr.io/ksev/ostree-images/base:latest
 
 # Copy the compiled akmods from these ublue images so i dont have to build against newest kernel release
-COPY --from=ghcr.io/ublue-os/akmods-nvidia:main-38-535 /rpms /tmp/akmods-rpms
+COPY --from=ghcr.io/ublue-os/akmods-nvidia:main-39-535 /rpms /tmp/akmods-rpms
 
 RUN rpm-ostree install /tmp/akmods-rpms/ublue-os/ublue-os-nvidia-addons-*.rpm && \
     source /tmp/akmods-rpms/kmods/nvidia-vars.535 && \
