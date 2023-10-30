@@ -1,0 +1,12 @@
+FROM fedora-iot:39
+
+COPY ansible/*.yml ansible/files /tmp/ansible/base
+
+RUN rpm-ostree install -y ansible && \
+    ansible-galaxy install -r /tmp/ansible/base/requirements.yml && \
+    ansible-playbook /tmp/ansible/base/playbook.yml && \
+    rm -rf ~/.ansible /var/* ~/.* && \
+    ostree container commit
+
+LABEL NAME server
+LABEL VERSION latest

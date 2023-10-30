@@ -1,0 +1,43 @@
+---
+- name: Base image Playbook
+  hosts: localhost
+  tasks:
+  - name: Configure rpm-ostree auto updates
+    copy:
+      src: rpm-ostreed.conf
+      dest: /etc/rpm-ostreed.conf
+      mode: '0644'
+
+  - name: Enable Auto update ostree
+    systemd: 
+      name: rpm-ostreed-automatic.timer
+      enabled: true
+
+  - name: Dampen kernel log from Debug to Warn
+    copy:
+      src: 98-silence.conf
+      dest: /etc/sysctl.d/98-silence.conf
+      mode: '0644'
+        
+  - name: Download nushell copr
+    shell: wget https://copr.fedorainfracloud.org/coprs/atim/nushell/repo/fedora-$(rpm -E %fedora)/atim-nushell-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_atim-nushell.repo
+
+  - name: Add base packages
+    community.general.rpm_ostree_pkg:
+      name: 
+      - nushell
+      - git-core
+      state: present
+
+  - name: Remove stuff i dont need
+    community.general.rpm_ostree_pkg:
+      name:
+      - bluez
+      - bluez-mesh
+      - bluez-libs
+      - ignition
+      - zezere-ignition
+      - usbguard
+      - usbguard-selinux
+      - greenboot-default-health-checks
+      state: absent
