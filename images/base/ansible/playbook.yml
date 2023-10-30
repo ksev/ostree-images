@@ -31,9 +31,6 @@
       - firefox-langpacks
       - toolbox
       state: absent
-    
-  - name: Download System76 scheduler copr
-    shell: wget https://copr.fedorainfracloud.org/coprs/kylegospo/system76-scheduler/repo/fedora-$(rpm -E %fedora)/kylegospo-system76-scheduler-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-system76-scheduler.repo
 
   - name: Download VRR copr
     shell: wget https://copr.fedorainfracloud.org/coprs/kylegospo/gnome-vrr/repo/fedora-$(rpm -E %fedora)/kylegospo-gnome-vrr-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-gnome-vrr.repo
@@ -50,7 +47,6 @@
       - distrobox
       - gnome-tweaks
       - steam-devices
-      - system76-scheduler
       - nushell
       - starship
       state: present
