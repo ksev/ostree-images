@@ -49,6 +49,7 @@
       - steam-devices
       - nushell
       - starship
+      - lm_sensors
       state: present
 
   - name: Build VRR Copr
