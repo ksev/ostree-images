@@ -49,12 +49,21 @@
       url: 'https://github.com/k3s-io/k3s/releases/download/v1.28.5%2Bk3s1/k3s'
       checksum: 'sha256:38fadb2baf75cb516d59f7f4a40c1950fdc0dce5ebe7251aae235527b7de4083'
       dest: /usr/bin/
+      mode: '0755'
 
   - name: Download Cilium binary
     get_url:
       url: 'https://github.com/cilium/cilium-cli/releases/download/v0.15.20/cilium-darwin-amd64.tar.gz'
       checksum: 'sha256:c27a2e54c2b267e0b873b89fd6949c319b092b8e4c1e5be830bb9d3959911f36'
-      dest: /usr/bin/
+      dest: /root/
+    register: cildown
+
+  - name: Unpack Cilium binary
+    unarchive:
+      remote_src: true
+      src: "{{ cildown.dest }}"
+      dest: /usr/bin
+      mode: '0755'
 
   - name: Copy k3s service unit
     copy: 

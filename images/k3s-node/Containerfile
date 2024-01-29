@@ -6,7 +6,7 @@ RUN rpm-ostree install -y ansible && \
     ansible-galaxy install -r /tmp/ansible/base/requirements.yml && \
     ansible-playbook /tmp/ansible/base/playbook.yml && \
     rm -rf ~/.ansible /var/* ~/.* && \
-    rpm -e ansible && \
+    rpm-ostree uninstall -y ansible && \
     ostree container commit
 
 LABEL NAME k3s-node
