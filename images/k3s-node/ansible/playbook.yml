@@ -1,0 +1,68 @@
+---
+- name: Base image Playbook
+  hosts: localhost
+  tasks:
+  - name: Configure rpm-ostree auto updates
+    copy:
+      src: rpm-ostreed.conf
+      dest: /etc/rpm-ostreed.conf
+      mode: '0644'
+
+  - name: Enable Auto update ostree
+    systemd: 
+      name: rpm-ostreed-automatic.timer
+      enabled: true
+
+  - name: Mask zincati
+    systemd:
+      name: zincati.service
+      masked: true
+      enabled: false
+
+  - name: Add kubernetes repo
+    copy: 
+      src: kubernetes.repo 
+      dest: /etc/yum.repos.d/kubernetes.repo
+      mode: '0644'
+
+  - name: Add k3s repo
+    copy: 
+      src: k3s.repo 
+      dest: /etc/yum.repos.d/k3s.repo
+      mode: '0644'
+
+  - name: Add modules to load 
+    copy: 
+      src: kubernetes.conf
+      dest: /etc/modules-load.d/kubernetes.conf
+      mode: '0644'
+      
+  - name: Add kube packages
+    community.general.rpm_ostree_pkg:
+      name: 
+      - kubectl
+      - k3s-selinux
+      state: present
+
+  - name: Download k3s binary
+    get_url:
+      url: 'https://github.com/k3s-io/k3s/releases/download/v1.28.5%2Bk3s1/k3s'
+      checksum: 'sha256:38fadb2baf75cb516d59f7f4a40c1950fdc0dce5ebe7251aae235527b7de4083'
+      dest: /usr/bin/
+
+  - name: Download Cilium binary
+    get_url:
+      url: 'https://github.com/cilium/cilium-cli/releases/download/v0.15.20/cilium-darwin-amd64.tar.gz'
+      checksum: 'sha256:c27a2e54c2b267e0b873b89fd6949c319b092b8e4c1e5be830bb9d3959911f36'
+      dest: /usr/bin/
+
+  - name: Copy k3s service unit
+    copy: 
+      src: k3s.service
+      dest: /usr/lib/systemd/system/k3s.service
+
+  - name: Enable k3s service unit
+    systemd: 
+      name: k3s.service
+      enabled: true
+    
