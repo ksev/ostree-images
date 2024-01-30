@@ -17,7 +17,7 @@ TasksMax=infinity
 TimeoutStartSec=0
 Restart=always
 RestartSec=5s
-ExecStart=/usr/bin/k3s server --disable-kube-proxy --disable-network-policy --flannel-backend=none --selinux
+ExecStart=/usr/bin/k3s server --disable-kube-proxy --disable-network-policy --flannel-backend=none
 
 [Install]
 WantedBy=multi-user.target  
