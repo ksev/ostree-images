@@ -41,7 +41,6 @@
     community.general.rpm_ostree_pkg:
       name: 
       - kubectl
-      - nfs-utils
       - k3s-selinux
       - helm
       state: present
