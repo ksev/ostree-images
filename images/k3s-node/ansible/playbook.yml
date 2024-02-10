@@ -36,13 +36,20 @@
       src: kubernetes.conf
       dest: /etc/modules-load.d/kubernetes.conf
       mode: '0644'
-      
+
+  - name: Remove nfs-coreos
+    community.general.rpm_ostree_pkg:
+      name:
+      - nfs-utils-coreos
+      state: absent
+        
   - name: Add kube packages
     community.general.rpm_ostree_pkg:
       name: 
       - kubectl
       - k3s-selinux
       - helm
+      - nfs-utils
       state: present
 
   - name: Download k3s binary
