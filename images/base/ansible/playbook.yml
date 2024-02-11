@@ -50,6 +50,7 @@
       - nushell
       - starship
       - lm_sensors
+      - gvfs-nfs
       state: present
 
   - name: Build VRR Copr
