@@ -4,15 +4,16 @@ COPY ansible/*.yml ansible/files /tmp/ansible/base
 
 RUN rpm-ostree cliwrap install-to-root /
 
-RUN rpm-ostree override replace https://kojipkgs.fedoraproject.org/packages/kernel/6.7.4/200.fc39/x86_64/kernel-6.7.4-200.fc39.x86_64.rpm \
-    https://kojipkgs.fedoraproject.org/packages/kernel/6.7.4/200.fc39/x86_64/kernel-core-6.7.4-200.fc39.x86_64.rpm \
-    https://kojipkgs.fedoraproject.org/packages/kernel/6.7.4/200.fc39/x86_64/kernel-debug-modules-6.7.4-200.fc39.x86_64.rpm && \
-
-    rpm-ostree install -y ansible && \
+RUN rpm-ostree install -y ansible && \
     ansible-galaxy install -r /tmp/ansible/base/requirements.yml && \
     ansible-playbook /tmp/ansible/base/playbook.yml && \
     rm -rf ~/.ansible /var/* ~/.* && \
     rpm-ostree uninstall -y ansible && \
+
+    rpm-ostree override replace https://kojipkgs.fedoraproject.org/packages/kernel/6.7.4/200.fc39/x86_64/kernel-6.7.4-200.fc39.x86_64.rpm \
+        https://kojipkgs.fedoraproject.org/packages/kernel/6.7.4/200.fc39/x86_64/kernel-core-6.7.4-200.fc39.x86_64.rpm \
+        https://kojipkgs.fedoraproject.org/packages/kernel/6.7.4/200.fc39/x86_64/kernel-debug-modules-6.7.4-200.fc39.x86_64.rpm && \    
+
     ostree container commit
 
 LABEL NAME k3s-node
