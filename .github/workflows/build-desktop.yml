@@ -1,4 +1,4 @@
-name: Build & push images
+name: Build & push desktop images
 
 on:
   schedule:
@@ -40,10 +40,4 @@ jobs:
     
     - name: Publish base-nv
       run: nu publish.nu "base-nv"
-
-    - name: Build k3s-node
-      run: nu build.nu "k3s-node"
-
-    - name: Publish k3s-node
-      run: nu publish.nu "k3s-node"
 
