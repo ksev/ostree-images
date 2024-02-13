@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora-coreos:rawhide
+FROM quay.io/fedora/fedora-coreos:next
 
 COPY ansible/*.yml ansible/files /tmp/ansible/base
 
