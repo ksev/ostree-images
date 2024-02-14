@@ -50,6 +50,9 @@
       - k3s-selinux
       - helm
       - nfs-utils
+      - libaio
+      - libsodium
+      - userspace-rcu
       state: present
 
   - name: Download k3s binary
