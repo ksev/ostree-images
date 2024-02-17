@@ -56,14 +56,13 @@
   - name: Copy bcachefs mount script
     copy: 
       src: bcachefs-mount.sh
-      dest: /usr/local/bin/bcachefs-mount.sh
+      dest: /var/usrlocal/bin/bcachefs-mount.sh
       mode: '0755'
   
   - name: Copy bcachefs oneshot
     copy: 
       src: bcachefs-mount.service
       dest: /usr/lib/systemd/system/bcachefs-mount.service
-
     
   - name: Enable bcachefs mount
     systemd: 
