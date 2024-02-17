@@ -53,6 +53,23 @@
       - bcachefs-tools
       state: present
 
+  - name: Copy bcachefs mount script
+    copy: 
+      src: bcachefs-mount.sh
+      dest: /usr/local/bin/bcachefs-mount.sh
+      mode: '0755'
+  
+  - name: Copy bcachefs oneshot
+    copy: 
+      src: bcachefs-mount.service
+      dest: /usr/lib/systemd/system/bcachefs-mount.service
+
+    
+  - name: Enable bcachefs mount
+    systemd: 
+      name: bcachefs-mount.service
+      enabled: true
+
   - name: Download k3s binary
     get_url:
       url: 'https://github.com/k3s-io/k3s/releases/download/v1.28.5%2Bk3s1/k3s'
