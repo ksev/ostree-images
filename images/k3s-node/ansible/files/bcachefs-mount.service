@@ -4,7 +4,7 @@ Description = Mount Storage disks
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStop=/usr/local/bin/bcachefs-mount.sh
+ExecStop=/usr/bin/bcachefs-mount.sh
 
 [Install]
 WantedBy=multi-user.target

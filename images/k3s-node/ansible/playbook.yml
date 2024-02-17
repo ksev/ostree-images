@@ -56,7 +56,7 @@
   - name: Copy bcachefs mount script
     copy: 
       src: bcachefs-mount.sh
-      dest: /var/usrlocal/bin/bcachefs-mount.sh
+      dest: /usr/bin/bcachefs-mount.sh
       mode: '0755'
   
   - name: Copy bcachefs oneshot
