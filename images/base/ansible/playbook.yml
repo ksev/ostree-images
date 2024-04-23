@@ -32,26 +32,12 @@
       - toolbox
       state: absent
 
-  - name: Download VRR copr
-    shell: wget https://copr.fedorainfracloud.org/coprs/kylegospo/gnome-vrr/repo/fedora-$(rpm -E %fedora)/kylegospo-gnome-vrr-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-gnome-vrr.repo
-
-  - name: Download nushell copr
-    shell: wget https://copr.fedorainfracloud.org/coprs/atim/nushell/repo/fedora-$(rpm -E %fedora)/atim-nushell-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_atim-nushell.repo
-
-  - name: Download starship copr
-    shell: wget https://copr.fedorainfracloud.org/coprs/atim/starship/repo/fedora-$(rpm -E %fedora)/atim-starship-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_atim-starship.repo
-    
   - name: Add base packages
     community.general.rpm_ostree_pkg:
       name: 
       - distrobox
       - gnome-tweaks
       - steam-devices
-      - nushell
-      - starship
       - lm_sensors
       - gvfs-nfs
       state: present
-
-  - name: Build VRR Copr
-    shell: rpm-ostree override replace --experimental --from repo=copr:copr.fedorainfracloud.org:kylegospo:gnome-vrr mutter mutter-common gnome-control-center gnome-control-center-filesystem
