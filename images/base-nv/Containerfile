@@ -3,25 +3,9 @@ FROM ghcr.io/ksev/ostree-images/base:latest
 # Copy the compiled akmods from these ublue images so i dont have to build against newest kernel release
 COPY --from=ghcr.io/ublue-os/akmods-nvidia:main-41 /rpms /tmp/akmods-rpms
 
-RUN find /tmp/akmods-rpms && \
-    rpm-ostree install /tmp/akmods-rpms/ublue-os/ublue-os-nvidia-addons-*.rpm && \
-    sed -i '0,/enabled=0/{s/enabled=0/enabled=1/}' /etc/yum.repos.d/negativo17-fedora-nvidia.repo && \
-    sed -i '0,/enabled=0/{s/enabled=0/enabled=1/}' /etc/yum.repos.d/nvidia-container-toolkit.repo && \
-    source /tmp/akmods-rpms/kmods/nvidia-vars && \
-    rpm-ostree install \  
-        libnvidia-fbc \
-        libnvidia-ml.i686 \
-        libva-nvidia-driver \
-        nvidia-driver \
-        nvidia-driver-cuda \
-        nvidia-driver-cuda-libs.i686 \
-        nvidia-driver-libs.i686 \
-        nvidia-modprobe \
-        nvidia-persistenced \
-        nvidia-settings \
-        nvidia-container-toolkit ${VARIANT_PKGS} \
-        /tmp/akmods-rpms/kmods/kmod-nvidia-${KERNEL_VERSION}-${NVIDIA_AKMOD_VERSION}.fc${RELEASE}.rpm && \
-    sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/{eyecantcu-supergfxctl,negativo17-fedora-nvidia,nvidia-container-toolkit}.repo && \
+RUN find /tmp/rpms \
+    rpm-ostree install /tmp/rpms/ublue-os/ublue-os-nvidia*.rpm \
+    rpm-ostree install /tmp/rpms/kmods/kmod-nvidia*.rpm \
     ostree container commit
 
 LABEL NAME base-nv
